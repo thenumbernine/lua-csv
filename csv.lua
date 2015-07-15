@@ -12,8 +12,9 @@ d.rows[1].rank		--> gets you cell 1,1
 also, d.comments is a table that has all the comments
 --]]
 
-require 'ext'
-
+local table = require 'ext.table'
+local string = require 'ext.string'
+local file = require 'ext.file'
 local Row = class()
 
 function Row:init(csv, data)
@@ -92,7 +93,7 @@ end
 function CSV:init(d)
 	self.comments = table()
 	self.rows = table()
-	local ls = d:split('\n')
+	local ls = string.split(d, '\n')
 	for i,l in ipairs(ls) do
 		if i == #ls and #l == 0 then break end	-- why do I keep getting here ...
 		if l:sub(1,1) == '#' then
@@ -114,7 +115,7 @@ end
 
 local csv = {
 	file = function(fn)
-		return CSV(io.readfile(fn))
+		return CSV(file[fn])
 	end,
 	string = function(d)
 		return CSV(d)
