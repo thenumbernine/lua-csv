@@ -89,6 +89,7 @@ function CSV:readLine(l)
 	for i=1,#l do
 		state(l:sub(i,i), l:sub(i+1, i+1))
 	end
+	row:insert(sofar)
 	return row
 end
 
