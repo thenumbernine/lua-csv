@@ -109,7 +109,10 @@ function CSV:init(d)
 end
 
 function CSV:setColumnNames(columns)
-	columns = table.map(columns, function(s) return tostring(s) end)
+	columns = table.map(columns, function(s,k)
+		if type(k) ~= 'number' then return end
+		return tostring(s)
+	end)
 	self.columns = columns
 	self.columnIndexForName = self.columns:map(function(name, k)
 		return k, name
