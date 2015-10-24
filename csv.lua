@@ -19,9 +19,13 @@ local class = require 'ext.class'
 
 local Row = class()
 
+local function maxn(t)
+	return table.keys(t):sup()
+end
+
 function Row:init(csv, data)
 	self.csv = csv
-	for i=1,table.maxn(data) do
+	for i=1,maxn(data) do
 		self[i] = data[i]
 	end
 end
