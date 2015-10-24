@@ -20,7 +20,7 @@ local class = require 'ext.class'
 local Row = class()
 
 local function maxn(t)
-	return table.keys(t):sup()
+	return table.keys(t):sup() or 0
 end
 
 function Row:init(csv, data)
