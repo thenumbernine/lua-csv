@@ -123,6 +123,37 @@ function CSV:setColumnNames(columns)
 	end)
 end
 
+-- TODO make this compatible with the CSV structure
+-- until then, I'm just going to accept generic int-sequence-indexed tables of key'd tables
+function CSV.save(data, keys)
+	if not keys then
+		local keyset = {}
+		for i=1,#data do
+			local row = data[i]
+			for k,_ in pairs(row) do
+				keyset[k] = true
+			end
+		end
+		keys = table()
+		for k,_ in pairs(keyset) do
+			keys:insert(k)
+		end
+	else
+		keys = table(keys)	-- make sure its metatable is setup
+	end
+	local lines = table()
+	lines:insert('# '..keys:concat(',\t'))
+	for i=1,#data do
+		local row = data[i]
+		lines:insert(keys:map(function(key)
+			local value = row[key]
+			if value == nil then value = '' end
+			return tostring(value)
+		end):concat',\t')
+	end
+	return lines:concat'\n'
+end
+
 local csv = {
 	file = function(fn)
 		return CSV(file[fn])
@@ -130,6 +161,7 @@ local csv = {
 	string = function(d)
 		return CSV(d)
 	end,
+	save = CSV.save,
 }
 
 return csv
