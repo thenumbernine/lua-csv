@@ -148,7 +148,9 @@ function CSV.save(data, keys)
 		lines:insert(keys:map(function(key)
 			local value = row[key]
 			if value == nil then value = '' end
-			return tostring(value)
+			value = tostring(value)
+			if value:find',' then value = ('%q'):format(value) end
+			return value
 		end):concat',\t')
 	end
 	return lines:concat'\n'
