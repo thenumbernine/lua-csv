@@ -123,6 +123,28 @@ function CSV:setColumnNames(columns)
 	end)
 end
 
+function CSV:toLua()
+	local tolua = require 'ext.tolua'
+	local s = table()
+	s:insert'{'
+	for i,row in ipairs(self.rows) do
+		if self.columns then
+			local lrow = {}
+			for j,col in ipairs(self.columns) do
+				if row[j] ~= '' then
+					lrow[col] = row[j]
+				end
+			end
+			s:insert('\t'..tolua(lrow)..',')
+		else
+			-- does unpack have a size limit?
+			s:insert('\t'..tolua{table.unpack(row)}..',')
+		end
+	end
+	s:insert'}'
+	return s:concat'\n'
+end
+
 -- TODO make this compatible with the CSV structure
 -- until then, I'm just going to accept generic int-sequence-indexed tables of key'd tables
 function CSV.save(data, keys)
