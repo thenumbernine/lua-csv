@@ -180,7 +180,7 @@ end
 
 local csv = {
 	file = function(fn)
-		return CSV(file[fn])
+		return CSV(file(fn):read())
 	end,
 	string = function(d)
 		return CSV(d)
