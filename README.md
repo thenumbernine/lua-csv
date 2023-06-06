@@ -25,10 +25,15 @@ d:setColumnNames(names) -- sets column names, then you can do this:
 d.rows[1].rank			-- gets you cell 1,1
 ```
 
-Accessing data by the first-commented-line:
+Setting field names to the first comment line:
 ```Lua
 local string = require 'ext.string'
 d:setColumnNames(string.split(d.comments[1],','))
+```
+
+Setting field names to the first row:
+```Lua
+d:setColumnNames(d.rows:remove(1))
 ```
 
 ### Dependencies:

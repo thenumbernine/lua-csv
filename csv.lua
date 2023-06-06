@@ -102,8 +102,10 @@ function CSV:init(d)
 	self.comments = table()
 	self.rows = table()
 	local ls = string.split(d, '\n')
+	while #ls > 0 and #ls:last() == 0 do	-- remove trailing empty lines
+		ls:remove()
+	end
 	for i,l in ipairs(ls) do
-		if i == #ls and #l == 0 then break end	-- why do I keep getting here ...
 		if l:sub(1,1) == '#' then
 			self.comments:insert(l:sub(2))
 		else
