@@ -16,6 +16,7 @@ local table = require 'ext.table'
 local string = require 'ext.string'
 local file = require 'ext.file'
 local class = require 'ext.class'
+local tolua = require 'ext.tolua'
 
 local Row = class()
 
@@ -113,18 +114,14 @@ function CSV:init(d)
 end
 
 function CSV:setColumnNames(columns)
-	columns = table.map(columns, function(s,k)
-		if type(k) ~= 'number' then return end
-		return tostring(s)
-	end)
+	columns = table.mapi(columns, function(s) return tostring(s) end)
 	self.columns = columns
-	self.columnIndexForName = self.columns:map(function(name, k)
+	self.columnIndexForName = self.columns:mapi(function(name, k)
 		return k, name
 	end)
 end
 
 function CSV:toLua()
-	local tolua = require 'ext.tolua'
 	local s = table()
 	s:insert'{'
 	for i,row in ipairs(self.rows) do
@@ -167,7 +164,7 @@ function CSV.save(data, keys)
 	lines:insert('# '..keys:concat(',\t'))
 	for i=1,#data do
 		local row = data[i]
-		lines:insert(keys:map(function(key)
+		lines:insert(keys:mapi(function(key)
 			local value = row[key]
 			if value == nil then value = '' end
 			value = tostring(value)
