@@ -14,7 +14,7 @@ also, d.comments is a table that has all the comments
 
 local table = require 'ext.table'
 local string = require 'ext.string'
-local file = require 'ext.file'
+local path = require 'ext.path'
 local class = require 'ext.class'
 local tolua = require 'ext.tolua'
 
@@ -179,7 +179,7 @@ end
 
 local csv = {
 	file = function(fn)
-		return CSV(file(fn):read())
+		return CSV(path(fn):read())
 	end,
 	string = function(d)
 		return CSV(d)
