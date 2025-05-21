@@ -16,6 +16,7 @@ local table = require 'ext.table'
 local string = require 'ext.string'
 local path = require 'ext.path'
 local class = require 'ext.class'
+local assert = require 'ext.assert'
 local tolua = require 'ext.tolua'
 
 local Row = class()
@@ -82,11 +83,11 @@ function CSV:readLine(l)
 		end
 	end
 	states.skipNextComma = function(c, c2)
-		assert(c == ',')
+		assert.eq(c, ',')
 		state = states.default
 	end
 	states.skipNextQuote = function(c, c2)
-		assert(c == '"')
+		assert.eq(c, '"')
 		state = states.readQuote
 	end
 	state = states.default
@@ -179,7 +180,7 @@ end
 
 local csv = {
 	file = function(fn)
-		return CSV(path(fn):read())
+		return CSV(assert(path(fn):read()))
 	end,
 	string = function(d)
 		return CSV(d)
