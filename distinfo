@@ -1,9 +1,14 @@
+--------------------------------------------
+-- generated with dist/build-distinfo.rua --
+--------------------------------------------
+
 name = "csv"
 files = {
-	["README.md"] = "csv/README.md",
-	["csv-dev-1.rockspec"] = "csv/csv-dev-1.rockspec",
-	["csv.lua"] = "csv/csv.lua",
-	["tolua.lua"] = "csv/tolua.lua",
+	"README.md",
+	"csv-dev-1.rockspec",
+	"csv.lua",
+	"distinfo",
+	"tolua.lua",
 }
 deps = {
 	"ext",
